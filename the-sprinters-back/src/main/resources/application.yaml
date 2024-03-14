@@ -1,0 +1,46 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/thesprinters
+    driver-class-name: org.postgresql.Driver
+    username: thesprinters
+    password: thesprinters
+    hikari:
+      auto-commit: false
+  jackson:
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+
+  jpa:
+    hibernate:
+      generate-ddl: true
+      ddl-auto: validate
+    properties:
+      hibernate:
+        connection:
+          charSet: UTF-8
+        hbm2ddl:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        show_sql: false
+        format_sql: false
+
+  flyway:
+    url: jdbc:postgresql://localhost:5433/thesprinters
+    user: thesprinters
+    password: thesprinters
+    placeholder-replacement: false
+
+security:
+  jwt:
+    token:
+      secret-key: 4YCRY8ZqER2E45uC
+      expire-length: 1800000
+
+logging:
+  level:
+    root: info
+    org.springframework: info
+    org.hibernate: info
+  config: classpath:config/logging/logback-spring.xml

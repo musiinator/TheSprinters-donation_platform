@@ -1,0 +1,87 @@
+buildscript {
+    ext {
+        springBootVersion = '2.7.8'
+        springContextVersion = '5.3.15'
+        gsonVersion = '2.8.9'
+        jsonWebTokenVersion = '0.9.1'
+        spotBugsVersion = '4.5.3'
+        spotBugsGradle = '5.0.5'
+        lombokVersion = '1.18.22'
+        postgresql = '42.3.2'
+        postgresqlTestContainers = '1.16.3'
+        flyway = '8.4.3'
+        log4j = '2.20.0'
+        mapstructVersion = '1.4.2.Final'
+    }
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("com.github.spotbugs.snom:spotbugs-gradle-plugin:${spotBugsGradle}")
+    }
+}
+
+plugins {
+    id "org.flywaydb.flyway" version "${flyway}"
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.sprinters'
+version = '0.0.1-SNAPSHOT'
+description = "The Spinters"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    //spring boot
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-mail"
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    //spring
+    implementation "org.springframework:spring-context-support:${springContextVersion}"
+    implementation 'org.springframework:spring-tx'
+
+    //db
+    implementation "org.postgresql:postgresql:${postgresql}"
+    implementation "org.flywaydb:flyway-core:${flyway}"
+    implementation group: 'com.vladmihalcea', name: 'hibernate-types-55', version: '2.20.0'
+
+    //external
+    implementation "org.apache.logging.log4j:log4j:${log4j}"
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+    implementation "com.google.code.gson:gson:${gsonVersion}"
+    implementation "io.jsonwebtoken:jjwt:${jsonWebTokenVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+
+    //test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation "org.testcontainers:postgresql:${postgresqlTestContainers}"
+}
+
+tasks.withType(JavaCompile) {
+    options.deprecation = true
+}
+
+tasks.withType(Test) {
+    testLogging {
+        testLogging.exceptionFormat = 'full'
+    }
+}

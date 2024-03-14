@@ -1,0 +1,10 @@
+CREATE TABLE organization (
+    id UUID NOT NULL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE,
+    domain VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    location VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    logo VARCHAR(255) NOT NULL,
+    created TIMESTAMP NOT NULL
+);

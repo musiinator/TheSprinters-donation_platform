@@ -1,0 +1,14 @@
+version: '3'
+services:
+  pg:
+    image: postgres:11.7-alpine
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_USER=thesprinters
+      - POSTGRES_PASSWORD=thesprinters
+      - POSTGRES_DB=thesprinters
+    restart: always
+
+volumes:
+  config-volume:
